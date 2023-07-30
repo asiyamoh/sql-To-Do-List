@@ -1,13 +1,11 @@
-// Allows for resusable pool connection
-// importing the pg package from node_modules
-const pg = require('pg') 
+// Connect and send SQL to a PostgreSQL DB
+const pg = require("pg");
 
+// Represents network connect to DB
 const pool = new pg.Pool({
-    // Name of DB
-    database: '',
-    // Stuff below this will remain the same for now
-    host: 'localhost',
-    port: 5432
-})
+  host: "localhost",
+  port: 5432,
+  database: "weekend-to-do-app", // *** Don't forget to change! ***
+});
 
-module.exports = pool
+module.exports = pool;
