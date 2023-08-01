@@ -2,8 +2,10 @@ $(document).ready(onReady);
 
 function onReady() {
    console.log('inside the onReady function');
+   getTask();
    $('#submit-btn').on('click', handleSumbit);
-   $('.isComplete').on('click', '.complete-btn', isComplete);
+   $('#taskList').on('click','.delete-btn', handleDelete);
+   $('#taskList').on('click','.complete-btn', handleIsComplete)
 
 }
 
@@ -37,16 +39,14 @@ function getTask(){
 }
 
 function render(response){
-    console.log('inside GET', response);
       // append data to the DOM
       for (let i = 0; i < response.length; i++) {
          // let results
          let newRow = $(`
              <tr>
                  <td>${response[i].task}</td>
-                 <td>${response[i].isComplete} 
-                  </td>
-                  <td class = "isComplete">
+                 <td>${response[i].isComplete} </td>
+                  <td>${isComplete(response)}
                   </td>
                  <td>
                      <button class="delete-btn">
@@ -65,7 +65,7 @@ function render(response){
 
 function addTask(task){
    $.ajax({
-      type:'POST',
+      method:'POST',
       url: '/todo',
       data: task
    }).then((response) => {
@@ -75,21 +75,61 @@ function addTask(task){
    })
 }
 
+function handleDelete(){
+   const deleteId = $(this).parent().parent().data("id");
+   console.log('the id is:', deleteId)
 
-
-
-function isComplete(){
-   const isCompleteId = $(this).parent().data('id');
-   console.log('update the  complete status with id:', isCompleteId );
    $.ajax({
-      method:'PUT',
-      url:`todo/${isCompleteId}`
+      method:'DELETE',
+      url:`/todo/${deleteId}`
    }).then((response) => {
-      getTask();
+      getTask()
    }).catch((error) => {
-      console.log(error)
+      console.log('Error with the Delete', error);
    })
 }
+
+function handleIsComplete(id){
+   const isCompleteId = $(this).parent().data('id');
+   console.log('the id is:', isCompleteId);
+
+   $.ajax({
+      method: 'PUT',
+      url:`/todo/${isCompleteId}`
+   }).then((response) => {
+      getTask()
+   }).catch((error) => {
+      console.log('Error with the PUT', error);
+   })
+}
+
+function isComplete(toDo){
+   console.log('inside the isComplete', toDo);
+   if(toDo.isComplete){
+      return '<button class="complete-btn">Mark Incomplete</button>';
+   }
+   else {
+      return `<button class="complete-btn">Mark Complete</button>`;
+    }
+
+}
+
+
+
+
+
+// function isComplete(){
+//    const isCompleteId = $(this).parent().data('id');
+//    console.log('update the  complete status with id:', isCompleteId );
+//    $.ajax({
+//       method:'PUT',
+//       url:`todo/${isCompleteId}`
+//    }).then((response) => {
+//       getTask();
+//    }).catch((error) => {
+//       console.log(error)
+//    })
+// }
 
 // function sumbit(){
 //    let taskListObject = {
