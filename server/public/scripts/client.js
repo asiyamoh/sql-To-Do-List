@@ -80,8 +80,3 @@ function getTask(){
       console.log('Error in the GET', error);
    })
 }
-
-function 
-
-
-

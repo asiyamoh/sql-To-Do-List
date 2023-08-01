@@ -13,8 +13,7 @@ router.get('/todo', (req, res) => {
         .then((result) => {
             // console.log(result)
             res.send(result.rows)
-        })
-        .catch((error) => {
+        }).catch((error) => {
             console.log("Error on GET", error)
             res.sendStatus(500)
         })
@@ -40,14 +39,39 @@ router.post('/todo', (req,res) => {
         })
 })
 
-router.put('/todo/:id', (req,res) =>{
-    console.log("req.parms:", req.params)
+router.delete('/todo/:id', (req,res) =>{
+    const deleteId = req.params.id;
+    console.log("id to delete is:", deleteId)
 
-    let isCompleteId = req.params.id;
-    let queryParams = []
+    let queryText = `DELETE FROM "TODO" 
+    WHERE "id" = $1;`
+
+    let queryParams = [deleteId];
+
+    pool.query(queryText,queryParams)
+        .then((response)  => {
+            res.sendStatus(200)
+        }).catch((error) => {
+            res.sendStatus(500)
+        })
 })
 
+router.put('/todo/:id', (req,res) => {
+    const taskId = req.params.id;
+   
+    const queryText = `UPDATE "TODO" 
+    SET "isComplete" = NOT "isComplete" 
+    WHERE "id"=$1;`
 
+    const queryParams = [taskId];
+
+    pool.query(queryText, queryParams)
+        .then((response) => {
+            res.sendStatus(200)
+        }).catch((error) => {
+            res.sendStatus(500);
+        })
+})
 
 
 module.exports = router;
