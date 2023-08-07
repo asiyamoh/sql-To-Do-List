@@ -106,12 +106,12 @@ function handleIsComplete(id) {
 function isComplete(toDo) {
    console.log('inside the isComplete', toDo);
    if (toDo.isComplete) {
-      $('td').addClass('colorgreen');
+      $('.complete-btn').addClass('colorgreen');
       return ('<button class="complete-btn">Mark Incomplete</button>');
    }
    else {
-      $('td').addClass('colorWhite');
-      return (`<button class="Incomplete-btn">Mark Complete</button>`);
+      $('.complete-btn').addClass('colorWhite');
+      return (`<button class="complete-btn">Mark Complete</button>`);
 
    }
 
