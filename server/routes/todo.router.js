@@ -1,9 +1,8 @@
 const pool = require("../modules/pool.js");
 const express = require("express");
-// Check the Name 🔽
 const router = express.Router();
 
-router.get('/todo', (req, res) => {
+router.get('/', (req, res) => {
     // Do a query to select all task from todo table
     console.log('insde the GET');
     let queryText = `SELECT * FROM "TODO"; `;
@@ -19,7 +18,7 @@ router.get('/todo', (req, res) => {
         })
 });
 
-router.post('/todo', (req,res) => {
+router.post('/', (req,res) => {
     console.log('req.body:', req.body)
 
     const task = req.body.task
@@ -39,7 +38,7 @@ router.post('/todo', (req,res) => {
         })
 })
 
-router.delete('/todo/:id', (req,res) =>{
+router.delete('/:id', (req,res) =>{
     const deleteId = req.params.id;
     console.log("id to delete is:", deleteId)
 
@@ -56,7 +55,7 @@ router.delete('/todo/:id', (req,res) =>{
         })
 })
 
-router.put('/todo/:id', (req,res) => {
+router.put('/:id', (req,res) => {
     const taskId = req.params.id;
    
     const queryText = `UPDATE "TODO" 

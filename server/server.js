@@ -17,7 +17,7 @@ app.use(express.static('server/public'));
 // Setup the todo router
 // to respond to requests from the  URL
 let todoRouter = require('./routes/todo.router.js');
-app.use('/', todoRouter);
+app.use('/todo', todoRouter);
 
 // Start express
 app.listen(PORT, () => {
